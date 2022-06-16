@@ -82,4 +82,14 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return repository.findAll(specificationCriteria, paging);
 	}
 
+	@Override
+	public Dipendente caricaSingoloDipendente(Long id) {
+		return repository.findById(id).orElse(null);
+	}
+
+	@Override
+	public Dipendente caricaSingoloDipendenteConRichieste(Long id) {
+		return repository.findByIdConRichieste(id).orElse(null);
+	}
+
 }

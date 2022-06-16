@@ -14,5 +14,8 @@ public interface DipendenteService {
 	
 	public Page<Dipendente> findByExample(Dipendente example, Integer pageNo, Integer pageSize, String sortBy);
 	
+	public Dipendente caricaSingoloDipendente(Long id);
+	
+	public Dipendente caricaSingoloDipendenteConRichieste(Long id);
 	
 }

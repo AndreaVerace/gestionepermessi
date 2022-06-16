@@ -48,13 +48,16 @@ public class DipendenteDTO {
 		
 	}
 
-	public DipendenteDTO(Long id,String nome,String cognome,String codiceFiscale,String email, Sesso sesso, Utente utente) {
+	public DipendenteDTO(Long id,String nome,String cognome,String codiceFiscale,String email,Date dataNascita,Date dataAssunzione,Date dataDimissioni, Sesso sesso, Utente utente) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceFiscale = codiceFiscale;
 		this.email = email;
+		this.dataNascita=dataNascita;
+		this.dataAssunzione=dataAssunzione;
+		this.dataDimissioni=dataDimissioni;
 		this.sesso = sesso;
 		this.utente = utente;
 	}
@@ -158,7 +161,7 @@ public class DipendenteDTO {
 	
 	public static DipendenteDTO buildDipendenteDTOFromModel(Dipendente dipendenteModel) {
 		DipendenteDTO result = new DipendenteDTO(dipendenteModel.getId(), dipendenteModel.getNome(), dipendenteModel.getCognome(),
-				dipendenteModel.getCodiceFiscale(),dipendenteModel.getEmail(),
+				dipendenteModel.getCodiceFiscale(),dipendenteModel.getEmail(),dipendenteModel.getDataNascita(),dipendenteModel.getDataAssunzione(),dipendenteModel.getDataDimissioni(),
 				dipendenteModel.getSesso(),dipendenteModel.getUtente());
 
 		if (!dipendenteModel .getRichiestePermesso().isEmpty())

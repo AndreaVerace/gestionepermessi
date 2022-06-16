@@ -44,10 +44,11 @@ public class UtenteDTO {
 		
 	}
 
-	public UtenteDTO(Long id,  String username,StatoUtente stato, Dipendente dipendente) {
+	public UtenteDTO(Long id,  String username,Date dateCreated,StatoUtente stato, Dipendente dipendente) {
 		super();
 		this.id = id;
 		this.username = username;
+		this.dateCreated=dateCreated;
 		this.stato = stato;
 		this.dipendente = dipendente;
 	}
@@ -126,7 +127,7 @@ public class UtenteDTO {
 	}
 	
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel) {
-		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getStato(),utenteModel.getDipendente());
+		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(),utenteModel.getDateCreated(), utenteModel.getStato(),utenteModel.getDipendente());
 
 		if (!utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())

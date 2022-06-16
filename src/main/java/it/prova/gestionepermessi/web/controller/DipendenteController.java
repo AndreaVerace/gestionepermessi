@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,7 +58,13 @@ public class DipendenteController {
 				.findByExample(dipendenteExample.buildDipendenteModel(true), pageNo, pageSize, sortBy).getContent();
 
 		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
-		return "utente/list";
+		return "dipendente/list";
 	}
 
+	@GetMapping("/show/{idDipendente}")
+	public String show(@PathVariable(required = true) Long idDipendente, Model model) {
+		model.addAttribute("show_dipendente_attr", dipendenteService.caricaSingoloDipendenteConRichieste(idDipendente));
+		return "dipendente/show";
+	}
+	
 }

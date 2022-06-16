@@ -1,5 +1,8 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -28,7 +31,9 @@
 			        <h5>Lista dei risultati</h5> 
 			    </div>
 			    <div class='card-body'>
-			    	<a class="btn btn-outline-primary ml-2" href="${pageContext.request.contextPath}/dipendente/insert">Add New</a>
+			    	<sec:authorize access="hasRole('BO_USER')">
+			    		<a class="btn btn-outline-primary ml-2" href="${pageContext.request.contextPath}/dipendente/insert">Add New</a>
+			    	</sec:authorize>
 			    	<a href="${pageContext.request.contextPath}/dipendente/search" class='btn btn-outline-secondary' >
 				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
 				        </a>

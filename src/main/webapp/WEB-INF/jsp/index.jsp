@@ -1,3 +1,7 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!doctype html>
 <html lang="it" class="h-100" >
 	 <head>
@@ -7,7 +11,7 @@
 		<!-- Custom styles per le features di bootstrap 'Columns with icons' -->
 	   <link href="${pageContext.request.contextPath}/assets/css/features.css" rel="stylesheet">
 	   
-	   <title>Raccolta Film</title>
+	   <title>Index</title>
 	 </head>
 	   <body class="d-flex flex-column h-100">
 	   		
@@ -40,6 +44,7 @@
 	    
 			
 			<!-- Begin page content -->
+			<sec:authorize access="hasRole('ADMIN')">
 			<main class="flex-shrink-0">
 			  <div class="container">
 			  
@@ -55,52 +60,127 @@
 			    
 			     <div class="p-5 mb-4 bg-light rounded-3">
 				      <div class="container-fluid py-5">
-				        <h1 class="display-5 fw-bold">Benvenuto alla Raccolta Film</h1>
+				        <h1 class="display-5 fw-bold">Benvenuto alla tua sezione! Gentile ${userInfo.username }.</h1>
 				        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. </p>
-				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/regista/search">Vai a Ricerca</a>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Ricerca Utenti</a>
 				      </div>
 			    </div>
 			    
 			  </div>
 			  
 			  <!--  features di bootstrap 'Columns with icons'  -->
+			  
 			  <div class="container px-4 py-5" id="featured-3">
 			    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
 			      <div class="feature col">
 			        <div class="feature-icon bg-primary bg-gradient">
 			          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
 			        </div>
-			        <h2>Ricerca Registi</h2>
+			        <h2>Ricerca Dipendenti</h2>
 			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/regista/search" class="icon-link">
+			        <a href="${pageContext.request.contextPath}/dipendente/search" class="icon-link">
 			          Vai alla funzionalità
 			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
 			        </a>
 			      </div>
-			      <div class="feature col">
-			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"/></svg>
-			        </div>
-			        <h2>Inserisci Nuovo Regista</h2>
-			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/regista/insert" class="icon-link">
-			          Vai alla funzionalità
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-			        </a>
-			      </div>
-			      <div class="feature col">
-			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
-			        </div>
-			        <h2>Ricerca Film</h2>
-			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/film/search" class="icon-link">
-			          Vai alla funzionalità
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-			        </a>
-			      </div>
+			      
 			    </div>
 			  </div>
+			  </sec:authorize>
+			  
+			  
+			  <sec:authorize access="hasRole('BO_USER')">
+			  
+			  <main class="flex-shrink-0">
+			  <div class="container">
+			  
+			  	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }" role="alert">
+				  ${errorMessage}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
+				
+					<div class="alert alert-danger alert-dismissible fade show ${errorePwd==null?'d-none':'' }" role="alert">
+				  ${errorePwd}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
+			    
+			     <div class="p-5 mb-4 bg-light rounded-3">
+				      <div class="container-fluid py-5">
+				        <h1 class="display-5 fw-bold">Benvenuto alla tua sezione! Gentile ${userInfo.username}.</h1>
+				        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. </p>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca Dipendenti</a>
+				      </div>
+			    </div>
+			    
+			  </div>
+			  
+			  <div class="container px-4 py-5" id="featured-3">
+			    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+			      <div class="feature col">
+			        <div class="feature-icon bg-primary bg-gradient">
+			          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+			        </div>
+			        <h2>Ricerca Richieste di Permesso</h2>
+			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+			        <a href="${pageContext.request.contextPath}/richiestaPermesso/search" class="icon-link">
+			          Vai alla funzionalità
+			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+			        </a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			  
+			  
+			  <div class="container px-4 py-5" id="featured-3">
+			    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+			      <div class="feature col">
+			        <div class="feature-icon bg-primary bg-gradient">
+			          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+			        </div>
+			        <h2>Ricerca Messaggi</h2>
+			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+			        <a href="${pageContext.request.contextPath}/messaggio/search" class="icon-link">
+			          Vai alla funzionalità
+			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+			        </a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			  
+			  </sec:authorize>
+			  
+			  
+			  
+			  <sec:authorize access="hasRole('DIPENDENTE_USER')">
+			<main class="flex-shrink-0">
+			  <div class="container">
+			  
+			  	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }" role="alert">
+				  ${errorMessage}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
+				
+					<div class="alert alert-danger alert-dismissible fade show ${errorePwd==null?'d-none':'' }" role="alert">
+				  ${errorePwd}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
+			    
+			     <div class="p-5 mb-4 bg-light rounded-3">
+				      <div class="container-fluid py-5">
+				        <h1 class="display-5 fw-bold">Benvenuto alla tua sezione! Gentile ${userInfo.username }.</h1>
+				        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. </p>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Gestione Richieste Permessi</a>
+				      </div>
+			    </div>
+			    
+			  </div>
+			 
+			  </sec:authorize>
+			  
+			  
+			  
 			  
 			</main>
 			

@@ -47,7 +47,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		//faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("admin") == null) {
 			Utente admin = new Utente("admin", "admin", new Date());
-			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("m.rossi@prova.it", "ROLE_ADMIN"));
+			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 			Dipendente adminDipendente = new Dipendente("Mario","Rossi","MRRSS70","m.rossi@prova.it",new SimpleDateFormat("yyyy-MM-dd").parse("1970-08-08"),new SimpleDateFormat("yyyy-MM-dd").parse("1997-09-18"),Sesso.MASCHIO,admin);
 			
 			
@@ -64,7 +64,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		if (utenteServiceInstance.findByUsername("bo_user") == null) {
 			Utente boUser = new Utente("bo_user", "bo_user", new Date());
 			boUser.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("a.longhi@prova.it", "ROLE_BO_USER"));
+					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("BO User", "ROLE_BO_USER"));
 			Dipendente boUserDipendente = new Dipendente("Antonio","Longhi","NTLNG70","a.longhi@prova.it",new SimpleDateFormat("yyyy-MM-dd").parse("1970-08-08"),new SimpleDateFormat("yyyy-MM-dd").parse("1997-09-18"),Sesso.MASCHIO,boUser);
 			
 			

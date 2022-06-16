@@ -1,5 +1,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <header>
   <!-- Fixed navbar -->
  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" aria-label="Eighth navbar example">
@@ -19,17 +21,17 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
+          <sec:authorize access="hasAnyRole('ROLE_ADMIN','BO_USER')">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Gestione raccolta Film</a>
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Gestione Dipendente</a>
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Home</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/regista/search">Ricerca Registi</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/regista/insert">Inserisci Regista</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/film/search">Ricerca Film</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/film/insert">Inserisci Film</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Ricerca Dipendenti</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/insert">Inserisci Dipendente</a></li>
             </ul> 
           </li>
-           <sec:authorize access="hasRole('ADMIN')">
+          </sec:authorize>
+            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -37,11 +39,12 @@
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
 		        </div>
 		      </li>
-		   </sec:authorize>
+		   </sec:authorize> 
+		   
       <sec:authorize access="isAuthenticated()">
      
 	       <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${userInfo.username }</a>
+		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sec:authentication property="name"/> ${userInfo.username }</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
 		          <a href="${pageContext.request.contextPath}/logout">Logout</a>
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/pwd/password">Reset Password</a>
@@ -52,5 +55,5 @@
     </div>
   </nav>
   
-  
+   
 </header>

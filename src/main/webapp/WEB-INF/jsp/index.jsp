@@ -171,7 +171,7 @@
 				      <div class="container-fluid py-5">
 				        <h1 class="display-5 fw-bold">Benvenuto alla tua sezione! Gentile ${userInfo.username }.</h1>
 				        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. </p>
-				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Gestione Richieste Permessi</a>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/richiestaPermesso/insert">Inserisci Richiesta di Permesso</a>
 				      </div>
 			    </div>
 			    

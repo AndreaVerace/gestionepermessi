@@ -42,6 +42,11 @@ public class GestionepermessiApplication implements CommandLineRunner {
 			ruoloServiceInstance.inserisciNuovo(new Ruolo("BO User", "ROLE_BO_USER"));
 		}
 
+		if (ruoloServiceInstance.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER") == null) {
+			ruoloServiceInstance.inserisciNuovo(new Ruolo("Dipendente User", "ROLE_DIPENDENTE_USER"));
+		}
+		
+		
 		// a differenza degli altri progetti cerco solo per username perche' se vado
 		// anche per password ogni volta ne inserisce uno nuovo, inoltre l'encode della password non lo 
 		//faccio qui perche gia lo fa il service di utente, durante inserisciNuovo

@@ -29,7 +29,6 @@ public class DipendenteDTO {
 	@NotBlank(message = "{codiceFiscale.notblank}")
 	private String codiceFiscale;
 	
-	@NotBlank(message = "{email.notblank}")
 	private String email;
 	
 	private Date dataNascita;

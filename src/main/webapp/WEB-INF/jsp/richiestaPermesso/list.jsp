@@ -63,7 +63,7 @@
 										<td>${richiestaItem.dataInizio }</td>
 										<td>${richiestaItem.dataFine }</td>
 										<td>
-											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestaPermesso/show/${dipendenteItem.id }">Visualizza</a>
+											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestaPermesso/show/${ richiestaItem.id }">Visualizza</a>
 											
 										</td>
 									</tr>

@@ -70,33 +70,18 @@
 							    	</select>
 							</div>
 							
-						<!-- 	<div class="col-md-3">
+							<div class="col-md-3">
 								<label for="richiestePermesso" class="form-label">Richieste Permesso</label>
 								    <select class="form-select " id="richiestePermesso" name="richiestePermesso" >
-								    <c:forEach items="richieste_totali_attr" var="richiestaitem">
-								    	<option value="" selected> - Selezionare - </option>
-								      	<option value="${richiestaitem}" >${richiestaItem.codiceCertificato}</option>
+								   	<option value="" selected> - Selezionare - </option>
+								    <c:forEach items="${ richieste_totali_attr}" var="richiestaItem">
+								      	<option value="${richiestaItem}" >${richiestaItem.codiceCertificato}</option>
 									</c:forEach>
 							    	</select>
-							</div>   -->
+							</div>   
 							
 							
-							<!--  <div class="col-md-6 form-check" id="richiestePermessoDivId">
-									<p>Richieste Permessi:</p>
-									<form:checkboxes itemValue="id" itemLabel="codice"  element="div class='form-check'" items="${richieste_totali_attr}" path="richiestePermessoIds" />
-								</div>
-								<script>
-									$(document).ready(function(){
-										
-										$("#richiestePermessoDivId :input").each(function () {
-											$(this).addClass('form-check-input'); 
-										});
-										$("#richiestePermessoDivId label").each(function () {
-											$(this).addClass('form-check-label'); 
-										});
-										
-									});
-								</script>  -->
+							 
 							
 							<div class="col-12">	
 								<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>

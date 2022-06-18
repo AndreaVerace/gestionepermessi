@@ -17,4 +17,8 @@ public interface RichiestaPermessoService {
 	public Page<RichiestaPermesso> findByExample(RichiestaPermesso example, Integer pageNo, Integer pageSize, String sortBy);
 	
 	public void inserisciNuovo(RichiestaPermesso richiestaPermesso,MultipartFile multipartFile);
+	
+	public List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo,String username);
+	
+	public void aggiorna(RichiestaPermesso richiesta);
 }

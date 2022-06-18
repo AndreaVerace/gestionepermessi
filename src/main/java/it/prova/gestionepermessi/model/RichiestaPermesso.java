@@ -148,12 +148,5 @@ public class RichiestaPermesso {
 	}
 
 	
-	public boolean isMalattia() {
-		if(this.tipoPermesso.equals(TipoPermesso.MALATTIA))
-			return true;
-		else
-			return false;
-	}
-	
 	
 }

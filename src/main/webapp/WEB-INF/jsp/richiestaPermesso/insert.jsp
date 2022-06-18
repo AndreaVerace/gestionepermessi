@@ -69,8 +69,7 @@
 								    </spring:bind>
 								    <form:errors  path="tipoPermesso" cssClass="error_field" />
 								</div>
-								
-								
+							
 								<div class="col-md-6" id="codiceCertificato">
 									<label for="codiceCertificato" class="form-label">Codice Certificato <span class="text-danger">*</span></label>
 									<spring:bind path="codiceCertificato">
@@ -81,12 +80,11 @@
 								
 								
 								<div class="col-md-6" id="attachment">
-								  <label for="attachment" class="form-label"> Eventuale Allegato</label>
+								  <label for="attachment" class="form-label"> Eventuale Allegato </label>
 								  <spring:bind path="attachment">
 									  <input class="form-control" type="file" id="attachment" name="attachment" value="">
 								  </spring:bind>
 								</div>
-								
 							
 								<div class="col-md-12">
 								  <input class="form-check-input" type="checkbox"  id="giornoSingolo" name="giornoSingolo">
@@ -127,7 +125,6 @@
 		
 						</form:form>
   
-  
   						 <script>
 						$(document).ready(function(){
 							if($("#giornoSingolo").is(':checked')){
@@ -165,8 +162,6 @@
   						else {
   							$("#codiceCertificato").hide();
   	  						$("#attachment").hide();
-  	  						$("#codiceCertificato").attr("disabled","disabled");
-  	  						$("#attachment").attr("disabled","disabled");
   						}
   						  
   						});
@@ -175,13 +170,7 @@
   						
   						</script>
 				    
-				    	<script>
-				    	$(document).ready(function(){
-		  						if($("#tipoPermesso").val() == "FERIE"){
-		  							$("#codiceCertificato").children().attr("disabled","disabled");
-		  	  					}
-				    	});
-				    	</script>
+				    	
 				    	
 				    
 					<!-- end card-body -->			   

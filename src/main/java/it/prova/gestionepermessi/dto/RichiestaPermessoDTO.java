@@ -22,14 +22,13 @@ public class RichiestaPermessoDTO {
 	
 	private TipoPermesso tipoPermesso;
 	
-	@NotNull
+	@NotNull(message = "{dataInizio.notnull}")
 	private Date dataInizio;
 	
 	private Date dataFine;
 	
 	private boolean approvato;
 	
-	@NotBlank(message = "{codiceCertificato.notblank}")
 	private String codiceCertificato;
 	
 	private String nota;

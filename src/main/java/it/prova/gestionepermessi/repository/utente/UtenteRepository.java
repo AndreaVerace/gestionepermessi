@@ -1,5 +1,6 @@
 package it.prova.gestionepermessi.repository.utente;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -26,5 +27,8 @@ public interface UtenteRepository extends CrudRepository<Utente, Long> {
 	
 	@Query("from Utente u left join fetch u.ruoli where u.id = ?1")
 	Optional<Utente> findByIdConRuoli(Long id);
+	
+	@Query("from Utente u left join fetch u.ruoli r where r.codice like ?1")
+	List<Utente> findByRuolo(String codice);
 	
 }

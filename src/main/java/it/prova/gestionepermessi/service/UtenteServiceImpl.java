@@ -125,6 +125,11 @@ public class UtenteServiceImpl implements UtenteService {
 		return repository.findByIdConRuoli(id).orElse(null);
 	}
 
+	@Override
+	public List<Utente> findByRuolo(String codice) {
+		return repository.findByRuolo(codice);
+	}
+
 	
 
 }

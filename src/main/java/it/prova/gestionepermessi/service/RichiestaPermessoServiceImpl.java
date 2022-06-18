@@ -60,6 +60,8 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			if (example.getTipoPermesso() != null)
 				predicates.add(cb.equal(root.get("tipoPermesso"), example.getTipoPermesso()));
 			
+			if(example.getDipendente() != null)
+				predicates.add(root.join("dipendente").in(example.getDipendente()));
 			
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
@@ -94,6 +96,22 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			newfile.setRichiestaPermesso(richiestaPermesso);
 			attachmentRepository.save(newfile);
 		}
+		
+	}
+
+	@Override
+	public List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo, String username) {
+		return repository.trovaRichiesteUtente(codiceRuolo, username);
+	}
+
+	@Override
+	public void aggiorna(RichiestaPermesso richiesta) {
+		RichiestaPermesso richiestaReloaded = repository.findById(richiesta.getId()).orElse(null);
+		if(richiestaReloaded == null)
+			throw new RuntimeException("Elemento non trovato");
+		
+		repository.save(richiestaReloaded);
+		
 		
 	}
 

@@ -70,15 +70,15 @@
 							    	</select>
 							</div>
 							
-							<div class="col-md-3">
+						<!-- 	<div class="col-md-3">
 								<label for="richiestePermesso" class="form-label">Richieste Permesso</label>
 								    <select class="form-select " id="richiestePermesso" name="richiestePermesso" >
 								    <c:forEach items="richieste_totali_attr" var="richiestaitem">
 								    	<option value="" selected> - Selezionare - </option>
-								      	<option value="${richiestaitem}" >${richiestaItem.oggetto}</option>
+								      	<option value="${richiestaitem}" >${richiestaItem.codiceCertificato}</option>
 									</c:forEach>
 							    	</select>
-							</div>
+							</div>   -->
 							
 							
 							<!--  <div class="col-md-6 form-check" id="richiestePermessoDivId">

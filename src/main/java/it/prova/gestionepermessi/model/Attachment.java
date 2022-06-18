@@ -27,6 +27,10 @@ public class Attachment {
 	@Column(name = "contenttype")
 	private String contentType;
 	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "richiestaPermesso_id", referencedColumnName = "id", nullable = true)
+	private RichiestaPermesso richiestaPermesso;
+	
 	@Lob
 	private byte[] payload;
 
@@ -79,6 +83,12 @@ public class Attachment {
 		this.payload = payload;
 	}
 	
-	
+	public RichiestaPermesso getRichiestaPermesso() {
+		return richiestaPermesso;
+	}
+
+	public void setRichiestaPermesso(RichiestaPermesso richiestaPermesso) {
+		this.richiestaPermesso = richiestaPermesso;
+	}
 	
 }

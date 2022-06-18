@@ -100,6 +100,22 @@ public class Dipendente {
 		this.dataAssunzione=dataAssunzione;
 		this.sesso=sesso;
 	}
+	
+	
+
+	public Dipendente(Long id, String nome, String cognome, String codiceFiscale, String email, Date dataNascita,
+			Date dataAssunzione, Date dataDimissioni, Sesso sesso) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
+		this.email = email;
+		this.dataNascita = dataNascita;
+		this.dataAssunzione = dataAssunzione;
+		this.dataDimissioni = dataDimissioni;
+		this.sesso = sesso;
+	}
 
 	public Long getId() {
 		return id;

@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "richiesta_permesso")
+@Table(name = "richiestaPermesso")
 public class RichiestaPermesso {
 
 	@Id
@@ -46,9 +46,8 @@ public class RichiestaPermesso {
 	@Column(name = "nota")
 	private String nota;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "attachment_id", referencedColumnName = "id")
-	private Attachment attachment ;
+	@OneToOne(mappedBy = "richiestaPermesso")
+	private Attachment attachment;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "dipendente_id", nullable = false)
@@ -60,7 +59,7 @@ public class RichiestaPermesso {
 	}
 
 	public RichiestaPermesso(Long id, TipoPermesso tipoPermesso, Date dataInizio, Date dataFine, boolean approvato,
-			String codiceCertificato, String nota, Dipendente dipendente,Attachment attachment) {
+			String codiceCertificato, String nota, Dipendente dipendente) {
 		super();
 		this.id = id;
 		this.tipoPermesso = tipoPermesso;
@@ -70,7 +69,6 @@ public class RichiestaPermesso {
 		this.codiceCertificato = codiceCertificato;
 		this.nota = nota;
 		this.dipendente = dipendente;
-		this.attachment=attachment;
 	}
 
 	public RichiestaPermesso(Long id) {
@@ -150,7 +148,12 @@ public class RichiestaPermesso {
 	}
 
 	
-	
+	public boolean isMalattia() {
+		if(this.tipoPermesso.equals(TipoPermesso.MALATTIA))
+			return true;
+		else
+			return false;
+	}
 	
 	
 }

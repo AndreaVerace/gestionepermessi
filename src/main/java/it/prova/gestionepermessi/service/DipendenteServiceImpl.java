@@ -16,12 +16,19 @@ import org.springframework.stereotype.Service;
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
+import it.prova.gestionepermessi.repository.utente.UtenteRepository;
 
 @Service
 public class DipendenteServiceImpl implements DipendenteService {
 
 	@Autowired
 	private DipendenteRepository repository;
+	
+	@Autowired
+	private UtenteService utenteService;
+	
+	@Autowired
+	private UtenteRepository utenteRepository;
 	
 	@Override
 	public void inserisciNuovo(Dipendente dipendente) {
@@ -90,6 +97,33 @@ public class DipendenteServiceImpl implements DipendenteService {
 	@Override
 	public Dipendente caricaSingoloDipendenteConRichieste(Long id) {
 		return repository.findByIdConRichieste(id).orElse(null);
+	}
+
+	@Override
+	public void aggiorna(Dipendente dipendenteInstance) {
+		Dipendente dipendenteReloaded = repository.caricaSingoloDipendenteConUtente(dipendenteInstance.getId()).orElse(null);
+		if(dipendenteReloaded == null || dipendenteReloaded.getUtente() == null)
+			throw new RuntimeException("Elemento non trovato");
+		
+		dipendenteInstance.setUtente(dipendenteReloaded.getUtente());
+		
+		dipendenteInstance.getUtente().setUsername(dipendenteReloaded.getNome().substring(0, 1) + "." + dipendenteReloaded.getCognome());
+		dipendenteInstance.setEmail(dipendenteReloaded.getUtente().getUsername() + "@prova.it");
+		
+		utenteService.aggiorna(dipendenteInstance.getUtente());
+		
+		repository.save(dipendenteInstance);
+		
+	}
+
+	@Override
+	public Dipendente caricaSingoloDipendenteConUtente(Long id) {
+		return repository.caricaSingoloDipendenteConUtente(id).orElse(null);
+	}
+
+	@Override
+	public Dipendente cercaPerUsername(String username) {
+		return repository.cercaPerUsername(username);
 	}
 
 }

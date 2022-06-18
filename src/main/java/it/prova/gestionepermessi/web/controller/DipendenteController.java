@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -79,7 +81,7 @@ public class DipendenteController {
 			ModelMap model) {
 
 		List<Dipendente> dipendenti = dipendenteService
-				.findByExample(dipendenteExample.buildDipendenteModel(true), pageNo, pageSize, sortBy).getContent();
+				.findByExample(dipendenteExample.buildDipendenteModel(), pageNo, pageSize, sortBy).getContent();
 
 		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
 		return "dipendente/list";
@@ -123,9 +125,36 @@ public class DipendenteController {
 		utenteService.inserisciNuovo(dipendenteDTO.getUtente());
 		
 		dipendenteDTO.setEmail(dipendenteDTO.getUtente().getUsername() + "@prova.it");
-		dipendenteService.inserisciNuovo(dipendenteDTO.buildDipendenteModel(true));
+		dipendenteService.inserisciNuovo(dipendenteDTO.buildDipendenteModel());
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/dipendente";
 	}
+	
+	@GetMapping("/edit/{idDipendente}")
+	public String editDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
+		model.addAttribute("edit_dipendente_attr",
+				DipendenteDTO.buildDipendenteDTOFromModel(dipendenteService.caricaSingoloDipendente(idDipendente)));
+		return "dipendente/edit";
+	}
+
+/*	@PostMapping("/update")
+	public String updateDipendente(@Valid @ModelAttribute("edit_dipendente_attr") DipendenteDTO dipendenteDTO,
+			BindingResult result,
+			RedirectAttributes redirectAttrs, HttpServletRequest request) {
+
+		if (result.hasErrors()) {
+			return "dipendente/edit";
+		}
+		
+		dipendenteDTO.setId(dipendenteService.caricaSingoloDipendente(dipendenteDTO.getId()).getId());
+		
+		dipendenteService.aggiorna(dipendenteDTO.buildDipendenteModel(false));
+		
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/dipendente";
+	}
+	
+	*/
+	
 }

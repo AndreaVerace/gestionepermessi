@@ -149,11 +149,10 @@ public class DipendenteDTO {
 		this.richiestePermessoIds = richiestePermessoIds;
 	}
 	
-	public Dipendente buildDipendenteModel(boolean includeIdRichiestePermesso) {
+	public Dipendente buildDipendenteModel() {
 		Dipendente result = new Dipendente(this.id, this.nome, this.cognome, this.codiceFiscale,
 				this.email,this.dataNascita,this.dataAssunzione,this.dataDimissioni,this.sesso,this.utente);
-		if (includeIdRichiestePermesso && richiestePermessoIds != null)
-			result.setRichiestePermesso((Arrays.asList(richiestePermessoIds).stream().map(id -> new RichiestaPermesso(id)).collect(Collectors.toSet())));
+		
 
 		return result;
 	}
@@ -163,9 +162,6 @@ public class DipendenteDTO {
 				dipendenteModel.getCodiceFiscale(),dipendenteModel.getEmail(),dipendenteModel.getDataNascita(),dipendenteModel.getDataAssunzione(),dipendenteModel.getDataDimissioni(),
 				dipendenteModel.getSesso(),dipendenteModel.getUtente());
 
-		if (!dipendenteModel .getRichiestePermesso().isEmpty())
-			result.richiestePermessoIds = dipendenteModel.getRichiestePermesso().stream().map(r -> r.getId()).collect(Collectors.toList())
-					.toArray(new Long[] {});
 
 		return result;
 	}

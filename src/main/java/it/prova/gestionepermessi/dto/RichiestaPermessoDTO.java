@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Dipendente;
@@ -19,6 +22,7 @@ public class RichiestaPermessoDTO {
 	
 	private TipoPermesso tipoPermesso;
 	
+	@NotNull
 	private Date dataInizio;
 	
 	private Date dataFine;
@@ -30,7 +34,7 @@ public class RichiestaPermessoDTO {
 	
 	private String nota;
 	
-	private Attachment attachment;
+	private MultipartFile attachment;
 	
 	private Dipendente dipendente;
 	
@@ -40,7 +44,7 @@ public class RichiestaPermessoDTO {
 
 	public RichiestaPermessoDTO(Long id, TipoPermesso tipoPermesso, boolean approvato,
 			String codiceCertificato, String nota,
-			Dipendente dipendente,Attachment attachment) {
+			Dipendente dipendente) {
 		super();
 		this.id = id;
 		this.tipoPermesso = tipoPermesso;
@@ -48,7 +52,6 @@ public class RichiestaPermessoDTO {
 		this.codiceCertificato = codiceCertificato;
 		this.nota = nota;
 		this.dipendente = dipendente;
-		this.attachment=attachment;
 	}
 
 	public Long getId() {
@@ -109,11 +112,11 @@ public class RichiestaPermessoDTO {
 
 	
 
-	public Attachment getAttachment() {
+	public MultipartFile getAttachment() {
 		return attachment;
 	}
 
-	public void setAttachment(Attachment attachment) {
+	public void setAttachment(MultipartFile attachment) {
 		this.attachment = attachment;
 	}
 
@@ -128,15 +131,14 @@ public class RichiestaPermessoDTO {
 	
 	public RichiestaPermesso buildRichiestaPermessoModel() {
 		RichiestaPermesso result = new RichiestaPermesso(this.id,this.tipoPermesso,this.dataInizio,this.dataFine,
-				this.approvato,this.codiceCertificato,this.nota,this.dipendente,this.attachment);
+				this.approvato,this.codiceCertificato,this.nota,this.dipendente);
 		
 		return result;
 	}
 	
 	public static RichiestaPermessoDTO buildRichiestaPermessoDTOFromModel(RichiestaPermesso richiestaPermessoModel) {
 		RichiestaPermessoDTO result = new RichiestaPermessoDTO(richiestaPermessoModel.getId(),richiestaPermessoModel.getTipoPermesso(),richiestaPermessoModel.isApprovato(),
-				richiestaPermessoModel.getCodiceCertificato(),richiestaPermessoModel.getNota(),richiestaPermessoModel.getDipendente(),
-				richiestaPermessoModel.getAttachment());
+				richiestaPermessoModel.getCodiceCertificato(),richiestaPermessoModel.getNota(),richiestaPermessoModel.getDipendente());
 
 
 		return result;

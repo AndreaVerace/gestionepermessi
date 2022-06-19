@@ -138,7 +138,7 @@ public class DipendenteController {
 		return "dipendente/edit";
 	}
 
-/*	@PostMapping("/update")
+	@PostMapping("/update")
 	public String updateDipendente(@Valid @ModelAttribute("edit_dipendente_attr") DipendenteDTO dipendenteDTO,
 			BindingResult result,
 			RedirectAttributes redirectAttrs, HttpServletRequest request) {
@@ -147,14 +147,12 @@ public class DipendenteController {
 			return "dipendente/edit";
 		}
 		
-		dipendenteDTO.setId(dipendenteService.caricaSingoloDipendente(dipendenteDTO.getId()).getId());
-		
-		dipendenteService.aggiorna(dipendenteDTO.buildDipendenteModel(false));
+		dipendenteService.aggiorna(dipendenteService.caricaSingoloDipendente(dipendenteDTO.getId()));
 		
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/dipendente";
 	}
 	
-	*/
+	
 	
 }

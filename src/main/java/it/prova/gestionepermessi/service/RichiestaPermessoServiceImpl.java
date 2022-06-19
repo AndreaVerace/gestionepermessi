@@ -115,4 +115,10 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		
 	}
 
+	@Override
+	public void delete(RichiestaPermesso richiestaPermesso) {
+		repository.delete(richiestaPermesso);
+		
+	}
+
 }

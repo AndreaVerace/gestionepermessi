@@ -102,7 +102,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 	@Override
 	public void aggiorna(Dipendente dipendenteInstance) {
 		Dipendente dipendenteReloaded = repository.caricaSingoloDipendenteConUtente(dipendenteInstance.getId()).orElse(null);
-		if(dipendenteReloaded == null || dipendenteReloaded.getUtente() == null)
+		if(dipendenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		
 		dipendenteInstance.setUtente(dipendenteReloaded.getUtente());
@@ -110,7 +110,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 		dipendenteInstance.getUtente().setUsername(dipendenteReloaded.getNome().substring(0, 1) + "." + dipendenteReloaded.getCognome());
 		dipendenteInstance.setEmail(dipendenteReloaded.getUtente().getUsername() + "@prova.it");
 		
-		utenteService.aggiorna(dipendenteInstance.getUtente());
+		utenteRepository.save(dipendenteInstance.getUtente());
 		
 		repository.save(dipendenteInstance);
 		

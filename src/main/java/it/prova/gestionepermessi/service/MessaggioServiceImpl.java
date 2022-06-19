@@ -96,5 +96,16 @@ public class MessaggioServiceImpl implements MessaggioService {
 	public List<Messaggio> listAllMessaggiNonLetti() {
 		return repository.findAllByLettoIs(false);
 	}
+
+	@Override
+	public Messaggio findByRichiestaPermesso_Id(Long idRichiesta) {
+		return repository.findByRichiestaPermesso_Id(idRichiesta);
+	}
+
+	@Override
+	public void delete(Messaggio messaggio) {
+		repository.delete(messaggio);
+		
+	}
 	
 }

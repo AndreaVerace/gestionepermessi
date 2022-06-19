@@ -13,8 +13,9 @@ public interface MessaggioRepository extends CrudRepository<Messaggio, Long> {
 
 	Page<Messaggio> findAll(Specification<Messaggio> specificationCriteria, Pageable paging);
 
-	
 	Long countByLetto(boolean b);
 	
 	List<Messaggio> findAllByLettoIs(boolean letto);
+	
+	Messaggio findByRichiestaPermesso_Id(Long idRichiesta);
 }

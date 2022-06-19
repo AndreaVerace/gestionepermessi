@@ -64,7 +64,9 @@
 										<td>${richiestaItem.dataFine }</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestaPermesso/show/${ richiestaItem.id }">Visualizza</a>
-											
+											<sec:authorize access="hasRole('DIPENDENTE_USER')">
+											<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/richiestaPermesso/delete/${richiestaItem.id }">Delete</a>
+											</sec:authorize>
 										</td>
 									</tr>
 								</c:forEach>

@@ -20,6 +20,10 @@ public interface MessaggioService {
 	
 	public Long contaMessaggiNonLetti();
 
-	List<Messaggio> listAllMessaggiNonLetti();
+	public List<Messaggio> listAllMessaggiNonLetti();
+	
+	public Messaggio findByRichiestaPermesso_Id(Long idRichiesta);
+	
+	public void delete(Messaggio messaggio);
 	
 }

@@ -21,4 +21,6 @@ public interface RichiestaPermessoService {
 	public List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo,String username);
 	
 	public void aggiorna(RichiestaPermesso richiesta);
+	
+	public void delete(RichiestaPermesso richiestaPermesso);
 }

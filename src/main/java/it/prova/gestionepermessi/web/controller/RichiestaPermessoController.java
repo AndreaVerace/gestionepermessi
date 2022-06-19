@@ -26,12 +26,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
+import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.TipoPermesso;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.service.AttachmentService;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.MessaggioService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
@@ -52,6 +54,9 @@ public class RichiestaPermessoController {
 	
 	@Autowired
 	private MessaggioService messaggioService;
+	
+	@Autowired
+	private AttachmentService attachmentService;
 	
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso() {
@@ -174,4 +179,38 @@ public class RichiestaPermessoController {
 		return "redirect:/richiestaPermesso";
 	}
 	
+	@GetMapping("/delete/{idRichiesta}")
+	public String delete(@PathVariable(required = true) Long idRichiesta, Model model) {
+		RichiestaPermesso richiesta = richiestaPermessoService.caricaSingoloElemento(idRichiesta);
+
+		model.addAttribute("delete_richiestaPermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiesta));
+
+		model.addAttribute("dipendente_info",dipendenteService.caricaSingoloDipendente(richiesta.getDipendente().getId()));
+		
+		return "richiestaPermesso/delete";
+	}
+	
+	@GetMapping("/remove/{idRichiesta}")
+	public String remove(@PathVariable(required = true) Long idRichiesta, Model model, RedirectAttributes redirectAttrs) {
+		RichiestaPermesso richiesta = richiestaPermessoService.caricaSingoloElemento(idRichiesta);
+
+		if (richiesta.isApprovato()) {
+			model.addAttribute("errorMessage",
+					"NON PUOI ELIMINARE UNA RICHIESTA CHE SIA GIA STATA APPROVATA");
+			return "richiestaPermesso/delete";
+		}
+		
+		Attachment attachment = attachmentService.caricaSingoloAttachment(richiesta.getAttachment().getId());
+		if (attachment != null) {
+			attachmentService.delete(attachment);
+		}
+		Messaggio messaggio = messaggioService.findByRichiestaPermesso_Id(idRichiesta);
+		if (messaggio != null) {
+			messaggioService.delete(messaggio);
+		}
+		
+		richiestaPermessoService.delete(richiesta);
+		return "redirect:/richiestaPermesso";
+	}
 }

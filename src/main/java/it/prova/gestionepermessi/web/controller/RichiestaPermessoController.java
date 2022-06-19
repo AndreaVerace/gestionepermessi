@@ -1,6 +1,10 @@
 package it.prova.gestionepermessi.web.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.validation.Valid;
 
@@ -23,11 +27,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.TipoPermesso;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
+import it.prova.gestionepermessi.service.MessaggioService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
 import it.prova.gestionepermessi.service.UtenteService;
 
@@ -43,6 +49,9 @@ public class RichiestaPermessoController {
 	
 	@Autowired
 	private UtenteService utenteService;
+	
+	@Autowired
+	private MessaggioService messaggioService;
 	
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso() {
@@ -117,11 +126,30 @@ public class RichiestaPermessoController {
 			throw new RuntimeException("Non sei autenticato");
 		}
 		
-		
+		if(richiesta.getDataFine() == null) {
+			richiesta.setDataFine(richiesta.getDataInizio());
+		}
 		
 		richiesta.setDipendente(dipendenteLoggato);
 		
 		richiestaPermessoService.inserisciNuovo(richiesta,richiestaPermessoDTO.getAttachment());
+		
+		Messaggio mess = new Messaggio();
+		mess.setRichiestaPermesso(richiesta);
+		
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"),Locale.ITALY);
+		 Date today = (Date) calendar.getTime();
+		mess.setDataInserimento(today);
+		
+		mess.setOggetto("Richiesta permesso da parte di: " + richiesta.getDipendente().getNome() + " " + richiesta.getDipendente().getCognome());
+		
+		mess.setTesto("Il suddetto dipendente richiede un Permesso causa: " + richiesta.getTipoPermesso()
+		+ ". In alleggato l'eventuale codice Certificato,l'Attachment e la nota :" 
+		+ " codice:" + mess.getRichiestaPermesso().getCodiceCertificato() +"; "
+		+ " attachment: " + mess.getRichiestaPermesso().getAttachment() + "; "
+		+ " nota dipendente: " + mess.getRichiestaPermesso().getNota() + ".");
+		
+		messaggioService.inserisciNuovo(mess);
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestaPermesso";

@@ -52,6 +52,10 @@ public class Messaggio {
 		this.richiestaPermesso = richiestaPermesso;
 	}
 
+	public Messaggio() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -94,6 +94,12 @@
 			  <main class="flex-shrink-0">
 			  <div class="container">
 			  
+			  <div class="alert alert-warning alert-dismissible fade show ${alertMessage == 0? 'd-none':'' }" role="alert">
+					  Hai ${alertMessage } messaggi/o non letti/o.
+					  <a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/messaggio/listMessaggiNonLetti">Visualizza</a>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+					</div>
+			  
 			  	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }" role="alert">
 				  ${errorMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>

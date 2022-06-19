@@ -101,7 +101,7 @@ public class MessaggioDTO {
 		this.richiestaPermesso = richiestaPermesso;
 	}
 	
-	public Messaggio buildDipendenteModel() {
+	public Messaggio buildMessaggioModel() {
 		Messaggio result = new Messaggio(this.id, this.testo,this.oggetto,this.letto,this.dataInserimento,this.dataLettura,this.richiestaPermesso);
 		
 		return result;

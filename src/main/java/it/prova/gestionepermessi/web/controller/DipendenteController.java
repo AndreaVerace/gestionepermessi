@@ -107,6 +107,22 @@ public class DipendenteController {
 			return "dipendente/insert";
 		}
 		
+		if(dipendenteDTO.getDataDimissioni() != null) {
+			if(dipendenteDTO.getDataAssunzione().before(dipendenteDTO.getDataDimissioni())) {
+				result.reject("dataAssunzione", "NON PUO' LA DATA DIMISSIONI ESSERE ANTECEDENTE ALLA DATA ASSUNZIONE");
+			}
+		}
+		
+		if(dipendenteDTO.getDataAssunzione().before(dipendenteDTO.getDataNascita())) {
+			result.rejectValue("dataAssunzione","ERRORE NELL'INSERIMENTO DELLE DATE,TRA ASSUNZIONE E NASCITA");
+		}
+		
+		if(dipendenteDTO.getDataDimissioni() != null) {
+			if(dipendenteDTO.getDataDimissioni().before(dipendenteDTO.getDataNascita())) {
+				result.rejectValue("dataDimissioni","ERRORE NELL'INSERIMENTO DELLE DATE,TRA DIMISSIONI E NASCITA");
+			}
+		}
+		
 		Set<Ruolo> ruoloDipendente = new HashSet<Ruolo>();
 		ruoloDipendente.add(ruoloService.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
 		
@@ -145,6 +161,22 @@ public class DipendenteController {
 
 		if (result.hasErrors()) {
 			return "dipendente/edit";
+		}
+		
+		if(dipendenteDTO.getDataDimissioni() != null) {
+			if(dipendenteDTO.getDataAssunzione().before(dipendenteDTO.getDataDimissioni())) {
+				result.reject("dataAssunzione", "NON PUO' LA DATA DIMISSIONI ESSERE ANTECEDENTE ALLA DATA ASSUNZIONE");
+			}
+		}
+		
+		if(dipendenteDTO.getDataAssunzione().before(dipendenteDTO.getDataNascita())) {
+			result.rejectValue("dataAssunzione","ERRORE NELL'INSERIMENTO DELLE DATE,TRA ASSUNZIONE E NASCITA");
+		}
+		
+		if(dipendenteDTO.getDataDimissioni() != null) {
+			if(dipendenteDTO.getDataDimissioni().before(dipendenteDTO.getDataNascita())) {
+				result.rejectValue("dataDimissioni","ERRORE NELL'INSERIMENTO DELLE DATE,TRA DIMISSIONI E NASCITA");
+			}
 		}
 		
 		dipendenteService.aggiorna(dipendenteService.caricaSingoloDipendente(dipendenteDTO.getId()));

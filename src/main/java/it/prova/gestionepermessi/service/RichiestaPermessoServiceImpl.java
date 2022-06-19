@@ -60,6 +60,12 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			if (example.getTipoPermesso() != null)
 				predicates.add(cb.equal(root.get("tipoPermesso"), example.getTipoPermesso()));
 			
+			if (example.getDataInizio() != null)
+				predicates.add(cb.greaterThanOrEqualTo(root.get("dataInizio"), example.getDataInizio()));
+			
+			if (example.getDataFine() != null)
+				predicates.add(cb.greaterThanOrEqualTo(root.get("dataFine"), example.getDataFine()));
+			
 			if(example.getDipendente() != null)
 				predicates.add(root.join("dipendente").in(example.getDipendente()));
 			

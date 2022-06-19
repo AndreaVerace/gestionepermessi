@@ -75,7 +75,7 @@
 								    <select class="form-select " id="richiestePermesso" name="richiestePermesso" >
 								   	<option value="" selected> - Selezionare - </option>
 								    <c:forEach items="${ richieste_totali_attr}" var="richiestaItem">
-								      	<option value="${richiestaItem}" >${richiestaItem.codiceCertificato}</option>
+								      	<option value="${richiestaItem.id}" >${richiestaItem.codiceCertificato}</option>
 									</c:forEach>
 							    	</select>
 							</div>   

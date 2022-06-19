@@ -75,10 +75,10 @@
 			    	</dl>
 			    	
 			    	<dl class="row">
-			    	<c:forEach items="${show_dipendente_attr.richiestePermesso }" var="richiestaItem">
 					  <dt class="col-sm-3 text-right">Richiesta Permesso:</dt>
-					  <dd class="col-sm-9">${richiestaItem.oggetto}</dd>
-					  </c:forEach>
+					  <p><c:forEach items="${show_dipendente_attr.richiestePermesso }" var="richiestaItem">
+					  <dd class="col-sm-9">${richiestaItem.codiceCertificato}</dd>
+					  </c:forEach></p>
 			    	</dl>
 			    	
 					</div>

@@ -31,6 +31,9 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	@Autowired
 	private AttachmentRepository attachmentRepository;
 	
+	@Autowired
+	private AttachmentService attachmentService;
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<RichiestaPermesso> listAll() {
@@ -74,7 +77,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 		Pageable paging = null;
 		// se non passo parametri di paginazione non ne tengo conto
-		if (pageSize == null || pageSize < 10)
+		if (pageSize == null || pageSize < 50)
 			paging = Pageable.unpaged();
 		else
 			paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
@@ -106,18 +109,17 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	}
 
 	@Override
-	public List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo, String username) {
-		return repository.trovaRichiesteUtente(codiceRuolo, username);
+	public List<RichiestaPermesso> trovaRichiesteUtente( String username) {
+		return repository.trovaRichiesteUtente( username);
 	}
 
 	@Override
-	public void aggiorna(RichiestaPermesso richiesta) {
+	public void aggiorna(RichiestaPermesso richiesta,MultipartFile multipartFile) {
 		RichiestaPermesso richiestaReloaded = repository.findById(richiesta.getId()).orElse(null);
 		if(richiestaReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		
-		repository.save(richiestaReloaded);
-		
+		repository.save(richiesta);
 		
 	}
 

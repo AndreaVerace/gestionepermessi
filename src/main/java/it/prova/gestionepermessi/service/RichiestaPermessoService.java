@@ -18,9 +18,9 @@ public interface RichiestaPermessoService {
 	
 	public void inserisciNuovo(RichiestaPermesso richiestaPermesso,MultipartFile multipartFile);
 	
-	public List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo,String username);
+	public List<RichiestaPermesso> trovaRichiesteUtente(String username);
 	
-	public void aggiorna(RichiestaPermesso richiesta);
+	public void aggiorna(RichiestaPermesso richiesta,MultipartFile multipartFile);
 	
 	public void delete(RichiestaPermesso richiestaPermesso);
 }

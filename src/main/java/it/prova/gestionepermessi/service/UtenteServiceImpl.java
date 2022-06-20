@@ -130,6 +130,12 @@ public class UtenteServiceImpl implements UtenteService {
 		return repository.findByRuolo(codice);
 	}
 
+	@Override
+	public Utente cercaPerUsername(String username) {
+		return repository.cercaPerUsername(username).orElse(null);
+		
+	}
+
 	
 
 }

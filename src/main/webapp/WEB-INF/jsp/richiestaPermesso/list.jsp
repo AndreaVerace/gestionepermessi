@@ -3,6 +3,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -66,7 +67,9 @@
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestaPermesso/show/${ richiestaItem.id }">Visualizza</a>
 											<sec:authorize access="hasRole('DIPENDENTE_USER')">
 											<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/richiestaPermesso/delete/${richiestaItem.id }">Delete</a>
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/richiestaPermesso/edit/${richiestaItem.id }">Edit</a>
 											</sec:authorize>
+											
 										</td>
 									</tr>
 								</c:forEach>

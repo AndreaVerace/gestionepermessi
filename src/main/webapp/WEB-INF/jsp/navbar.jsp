@@ -43,7 +43,6 @@
 		   </sec:authorize> 
 		   
       <sec:authorize access="isAuthenticated()">
-     
 	       <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sec:authentication property="name"/> ${userInfo.username }</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -51,7 +50,6 @@
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/pwd/password">Reset Password</a>
 		        </div>
 		      </li>
-		      
       </sec:authorize>
     </div>
   </nav>

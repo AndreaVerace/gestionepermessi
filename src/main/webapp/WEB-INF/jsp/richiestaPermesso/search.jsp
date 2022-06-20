@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100" >
 <head>
@@ -63,16 +64,17 @@
 							    	</select>
 							</div>
 							
-							
+							<sec:authorize access="hasRole('BO_USER')">
 							<div class="col-md-3">
-								<label for="dipendente" class="form-label">Dipendente</label>
-								    <select class="form-select " id="dipendente" name="dipendente" >
+								<label for="dipendente" class="form-label">dipendente</label>
+								    <select class="form-select " id="Dipendente" name="dipendente" >
 								   	<option value="" selected> - Selezionare - </option>
-								    <c:forEach items="${ search_dipendenti_list}" var="dipendenteItem">
-								      	<option value="${dipendenteItem.id}" > ${dipendenteItem.nome} ${dipendenteItem.cognome}</option>
+								    <c:forEach items="${ dipendente_list_attribute}" var="dipendenteItem">
+								      	<option value="${dipendenteItem.id}" >${dipendenteItem.nome} ${dipendenteItem.cognome}</option>
 									</c:forEach>
 							    	</select>
-							</div>
+							</div> 
+							</sec:authorize>
 							
 							<div class="col-12">	
 								<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>

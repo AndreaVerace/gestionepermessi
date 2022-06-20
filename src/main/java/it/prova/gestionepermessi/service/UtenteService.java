@@ -28,4 +28,6 @@ public interface UtenteService {
 	
 	public List<Utente> findByRuolo(String codice);
 	
+	public Utente cercaPerUsername(String username);
+	
 }

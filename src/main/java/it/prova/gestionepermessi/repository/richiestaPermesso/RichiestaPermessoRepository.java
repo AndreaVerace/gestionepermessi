@@ -15,9 +15,9 @@ public interface RichiestaPermessoRepository extends CrudRepository<RichiestaPer
 
 	Page<RichiestaPermesso> findAll(Specification<RichiestaPermesso> specificationCriteria, Pageable paging);
 
-	@Query(value = "select * from richiestapermesso r left join dipendente d on d.id=r.dipendente_id "
-			+ " inner join utente u on d.utente_id=u.id inner join ruolo ru on ru.id=u.id where ru.codice like ?1 and u.username like ?2",
+	@Query(value = "select r.* from richiestapermesso r left join dipendente d on d.id=r.dipendente_id "
+			+ " inner join utente u on d.utente_id=u.id left join ruolo ru on ru.id=u.id where  u.username like ?1 ",
 			nativeQuery = true)
-	List<RichiestaPermesso> trovaRichiesteUtente(String codiceRuolo,String username);
+	List<RichiestaPermesso> trovaRichiesteUtente(String username);
 	
 }

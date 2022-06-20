@@ -18,6 +18,9 @@ public interface UtenteRepository extends CrudRepository<Utente, Long> {
 	@EntityGraph(attributePaths = { "ruoli" })
 	Optional<Utente> findByUsername(String username);
 	
+	@Query("select u from Utente u where u.username = ?1")
+	Optional<Utente> cercaPerUsername(String username);
+	
 	Utente findByUsernameAndPassword(String username, String password);
 	
 	@EntityGraph(attributePaths = { "ruoli" })

@@ -99,7 +99,7 @@ public class MessaggioServiceImpl implements MessaggioService {
 
 	@Override
 	public Messaggio findByRichiestaPermesso_Id(Long idRichiesta) {
-		return repository.findByRichiestaPermesso_Id(idRichiesta);
+		return repository.findByRichiestaPermesso_IdIs(idRichiesta);
 	}
 
 	@Override

@@ -61,7 +61,21 @@ public class RichiestaPermessoController {
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso() {
 		ModelAndView mv = new ModelAndView();
-		List<RichiestaPermesso> richiestePermesso = richiestaPermessoService.listAll();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Utente u = utenteService.cercaPerUsername(auth.getName());
+		
+		List<RichiestaPermesso> richiestePermesso = null;
+		
+		if(u.isDipendente()) {
+			richiestePermesso =  richiestaPermessoService.trovaRichiesteUtente(u.getUsername());
+		}
+		
+		else {
+			richiestePermesso =  richiestaPermessoService.listAll();
+		}
+		
 		mv.addObject("richiestaPermesso_list_attribute", richiestePermesso);
 		mv.setViewName("richiestaPermesso/list");
 		return mv;
@@ -70,28 +84,47 @@ public class RichiestaPermessoController {
 	@GetMapping("/search")
 	public String searchRichiestaPermesso(Model model) {
 		model.addAttribute("search_richiestaPermesso_attr", new RichiestaPermessoDTO());
-		model.addAttribute("search_dipendenti_list",DipendenteDTO.createDipendenteDTOListFromModelList(dipendenteService.listAllUtenti()));
+		model.addAttribute("dipendente_list_attribute",dipendenteService.listAllUtenti());
 		return "richiestaPermesso/search";
 	}
 
+	@GetMapping("/listDipendente")
+	public String listDipendenteRichiestePermesso(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Utente u = utenteService.cercaPerUsername(auth.getName());
+		
+		List<RichiestaPermesso> richiestePermesso =  richiestaPermessoService.trovaRichiesteUtente(u.getUsername());
+		
+		model.addAttribute("richiestaPermesso_list_attribute", RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
+		return "richiestaPermesso/list";
+	}
+	
 	@PostMapping("/list")
-	public String listUtenti(RichiestaPermessoDTO richiestaExample, @RequestParam(defaultValue = "0") Integer pageNo,
+	public String listRichiestePermesso(RichiestaPermessoDTO richiestaExample, @RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
 			ModelMap model) {
 				
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
-		Utente u = utenteService.findByUsername(auth.getName());
+		Utente u = utenteService.cercaPerUsername(auth.getName());
 		
 		List<RichiestaPermesso> richiestePermesso = null;
 		
-		if(u.isBO()) {
+		 if(u.isBO() && !u.isDipendente()) {
 		 richiestePermesso  = richiestaPermessoService
 				.findByExample(richiestaExample.buildRichiestaPermessoModel(), pageNo, pageSize, sortBy).getContent();
 		}
 		
-		if(u.isDipendente()) {
-			richiestePermesso = richiestaPermessoService.trovaRichiesteUtente(Ruolo.ROLE_DIPENDENTE_USER, u.getUsername());
+		
+		else if(u.isDipendente() && !u.isBO() && !u.isAdmin()) {
+			richiestePermesso = richiestaPermessoService.trovaRichiesteUtente( u.getUsername());
+			
+		}
+		
+		else if(u.isBO() && u.isDipendente()) {
+			richiestePermesso  = richiestaPermessoService
+				.findByExample(richiestaExample.buildRichiestaPermessoModel(), pageNo, pageSize, sortBy).getContent();
 		}
 		
 		model.addAttribute("richiestaPermesso_list_attribute", RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
@@ -170,10 +203,11 @@ public class RichiestaPermessoController {
 	public String approva(@PathVariable(required = true) Long idRichiestaPermesso, Model model,RedirectAttributes redirectAttrs) {
 		
 		RichiestaPermesso richiestaDaApprovare = richiestaPermessoService.caricaSingoloElemento(idRichiestaPermesso);
+		RichiestaPermessoDTO richiestaPermessoDTO = RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaDaApprovare);
 		
 		richiestaDaApprovare.setApprovato(true);
 		
-		richiestaPermessoService.aggiorna(richiestaDaApprovare);
+		richiestaPermessoService.aggiorna(richiestaDaApprovare,richiestaPermessoDTO.getAttachment());
 		
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestaPermesso";
@@ -183,6 +217,12 @@ public class RichiestaPermessoController {
 	public String delete(@PathVariable(required = true) Long idRichiesta, Model model) {
 		RichiestaPermesso richiesta = richiestaPermessoService.caricaSingoloElemento(idRichiesta);
 
+		if (richiesta.isApprovato()) {
+			model.addAttribute("errorMessage",
+					"NON PUOI ELIMINARE UNA RICHIESTA CHE SIA GIA STATA APPROVATA");
+			return "richiestaPermesso/list";
+		}
+		
 		model.addAttribute("delete_richiestaPermesso_attr",
 				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiesta));
 
@@ -211,6 +251,80 @@ public class RichiestaPermessoController {
 		}
 		
 		richiestaPermessoService.delete(richiesta);
+		return "redirect:/richiestaPermesso";
+	}
+	
+	@GetMapping("/edit/{idRichiesta}")
+	public String editRichiestaPermesso(@PathVariable(required = true) Long idRichiesta, Model model) {
+		RichiestaPermesso richiesta = richiestaPermessoService.caricaSingoloElemento(idRichiesta);
+		
+		if(richiesta.isApprovato()) {
+			model.addAttribute("errorMessage","Non è modificabile una richiesta già approvata.");
+			return "richiestaPermesso/list";
+		}
+		
+		model.addAttribute("edit_richiestaPermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaPermessoService.caricaSingoloElemento(idRichiesta)));
+		return "richiestaPermesso/edit";
+	}
+	
+	@PostMapping("/update")
+	public String updateRichiestaPermesso(@Valid @ModelAttribute("edit_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,Model model, BindingResult result,
+			RedirectAttributes redirectAttrs) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("errorMessage","Qualcosa è andato storto");
+			return "richiestaPermesso/edit";
+		}
+		
+		if(richiestaPermessoDTO.getTipoPermesso().equals(TipoPermesso.MALATTIA) && richiestaPermessoDTO.getCodiceCertificato().isBlank()) {
+			model.addAttribute("errorMessage","Il codice certificato deve essere valorizzato in caso di Malattia");
+			return "richiestaPermesso/edit";
+		}
+		
+		RichiestaPermesso richiesta = richiestaPermessoDTO.buildRichiestaPermessoModel();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		
+		Dipendente dipendenteLoggato = dipendenteService.cercaPerUsername(auth.getName());
+		if (dipendenteLoggato == null) {
+			throw new RuntimeException("Non sei autenticato");
+		}
+		
+		if(richiesta.getDataFine() == null) {
+			richiesta.setDataFine(richiesta.getDataInizio());
+		}
+		
+		
+		richiesta.setDipendente(dipendenteLoggato);
+		
+		richiestaPermessoService.aggiorna(richiesta,richiestaPermessoDTO.getAttachment());
+		
+		
+		
+		Messaggio mess = messaggioService.caricaSingoloMessaggio(messaggioService.findByRichiestaPermesso_Id(richiesta.getId()).getId());
+		
+		if(mess.isLetto()) {
+			model.addAttribute("errorMessage", "Il messaggio è stato gia letto.");
+			return "richiestaPermesso/list";
+		}
+		
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"),Locale.ITALY);
+		 Date today = (Date) calendar.getTime();
+		mess.setDataInserimento(today);
+		
+		mess.setOggetto("Richiesta permesso da parte di: " + richiesta.getDipendente().getNome() + " " + richiesta.getDipendente().getCognome());
+		
+		mess.setTesto("Il suddetto dipendente richiede un Permesso causa: " + richiesta.getTipoPermesso()
+		+ ". In alleggato l'eventuale codice Certificato,l'Attachment e la nota :" 
+		+ " codice:" + mess.getRichiestaPermesso().getCodiceCertificato() +"; "
+		+ " attachment: " + mess.getRichiestaPermesso().getAttachment() + "; "
+		+ " nota dipendente: " + mess.getRichiestaPermesso().getNota() + ".");
+		
+		messaggioService.aggiorna(mess);
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestaPermesso";
 	}
 }
